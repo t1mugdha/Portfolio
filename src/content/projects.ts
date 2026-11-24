@@ -28,8 +28,8 @@ export const projects: Project[] = [
     decisions: ['Baked lighting instead of real-time lights: far cheaper to render, and it gives the room its soft, painted look.'],
     poster: { src: '/projects/gaming-room-portfolio/poster.webp', alt: 'Overview of the 3D gaming room: bookshelf, pegboard, desk with curved monitor, arcade cabinet and mailbox' },
     learned: 'How a real 3D asset pipeline fits together — modelling, UVs, baking, export and web performance — and how to direct an AI collaborator with clear, testable feedback.',
-    repoUrl: '',
-    liveUrl: '',
+    repoUrl: 'https://github.com/t1mugdha/Portfolio',
+    liveUrl: 'https://tahmidul-islam-mugdha.vercel.app',
     color: '#ff5d73',
   },
   {
