@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react';
 import { projects } from '@/content/projects';
+import { social } from '@/content/profile';
 import type { Project } from '@/content/types';
 import { useApp } from '@/lib/store';
 import { asset } from '@/lib/util';
@@ -40,7 +42,86 @@ export function ProjectsPanel() {
           </li>
         ))}
       </ul>
+
+      <h3 className="sub">AT A GLANCE</h3>
+      <table className="ptable">
+        <caption className="sr">My projects, my role in each and the main tools used</caption>
+        <thead>
+          <tr>
+            <th scope="col">Project</th>
+            <th scope="col">My role</th>
+            <th scope="col">Built with</th>
+          </tr>
+        </thead>
+        <tbody>
+          {list.map((p) => (
+            <tr key={p.slug}>
+              <th scope="row">{p.title}</th>
+              <td>{p.role}</td>
+              <td>{p.stack.slice(0, 3).join(', ')}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <GitHubRepos />
     </>
+  );
+}
+
+type Repo = { id: number; name: string; html_url: string; description: string | null; language: string | null };
+
+/** Latest public repos, loaded live from the GitHub API with AJAX (no page reload). */
+function GitHubRepos() {
+  const user = social.find((l) => l.label === 'GitHub')?.url?.split('/').pop();
+  const [state, setState] = useState<'loading' | 'ok' | 'error'>('loading');
+  const [repos, setRepos] = useState<Repo[]>([]);
+
+  useEffect(() => {
+    if (!user) return;
+    let live = true;
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://api.github.com/users/' + user + '/repos?sort=updated&per_page=5');
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4 || !live) return; // 4 = DONE
+      if (xhr.status === 200) {
+        setRepos(JSON.parse(xhr.responseText) as Repo[]);
+        setState('ok');
+      } else {
+        setState('error');
+      }
+    };
+    xhr.send();
+    return () => {
+      live = false;
+      xhr.abort();
+    };
+  }, [user]);
+
+  if (!user) return null;
+  return (
+    <section aria-live="polite">
+      <h3 className="sub">LIVE FROM GITHUB</h3>
+      {state === 'loading' && <p className="muted">Loading repositories…</p>}
+      {state === 'error' && (
+        <p className="muted">
+          GitHub didn’t answer just now. <a href={'https://github.com/' + user} target="_blank" rel="noopener noreferrer">See my GitHub ↗</a>
+        </p>
+      )}
+      {state === 'ok' && (
+        <ul className="repos">
+          {repos.map((r) => (
+            <li key={r.id}>
+              <a href={r.html_url} target="_blank" rel="noopener noreferrer">
+                {r.name} ↗<span className="sr"> (opens in a new tab)</span>
+              </a>
+              {r.language && <span className="repo-lang">{r.language}</span>}
+              {r.description && <p className="muted">{r.description}</p>}
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
   );
 }
 

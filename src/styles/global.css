@@ -285,3 +285,22 @@ html.magic-cursor * {
   height: 6px;
   background: #f3f0ff;
 }
+
+/* ---------- projects table, github list, contact form ---------- */
+.ptable { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.ptable th, .ptable td { padding: 0.55rem 0.5rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; line-height: 1.4; }
+.ptable thead th { font-family: var(--mono); font-size: 0.7rem; font-weight: 500; color: var(--teal); border-bottom-color: var(--violet); }
+.ptable tbody th { font-weight: 600; color: var(--text); }
+.ptable td { color: var(--text-2); }
+.repos { display: grid; gap: 0.6rem; }
+.repos li { padding: 0.7rem 0.8rem; border: 1px solid var(--line); border-radius: 10px; }
+.repos a { font-weight: 600; }
+.repo-lang { margin-left: 0.6rem; font-family: var(--mono); font-size: 0.7rem; color: var(--yellow); }
+.repos .muted { margin-top: 0.25rem; }
+.cform { display: grid; gap: 0.3rem; margin-bottom: 1.4rem; }
+.cform label { margin-top: 0.4rem; font-size: 0.82rem; color: var(--text-2); }
+.cform input, .cform textarea { width: 100%; padding: 0.65rem 0.75rem; border: 1px solid var(--line); border-radius: 10px; background: rgba(255, 255, 255, 0.03); color: var(--text); font: inherit; font-size: 0.92rem; resize: vertical; }
+.cform input:focus, .cform textarea:focus { border-color: var(--lav); outline: none; }
+.cform [aria-invalid='true'] { border-color: var(--red); }
+.cform-err { min-height: 1em; font-size: 0.76rem; color: var(--red); }
+.cform .btn { justify-self: start; margin-top: 0.5rem; }
