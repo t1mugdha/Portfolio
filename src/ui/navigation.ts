@@ -55,3 +55,4 @@ export function listenHash() {
     window.removeEventListener('hashchange', on);
   };
 }
+
